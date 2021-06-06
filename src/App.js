@@ -4,6 +4,10 @@ import FormularioCadastro from "./components/FormularioCadastro/FormularioCadast
 
 import { Container, Typography } from "@material-ui/core";
 
+import { validRegisterNumber, validPassword } from "./models/cadastro";
+
+import validacoesCadastro from "./contexts/validacoesCadastro";
+
 import "fontsource-roboto";
 
 function App() {
@@ -12,21 +16,17 @@ function App() {
       <Typography variant="h3" component="h1" align="center">
         Formulário de cadastro
       </Typography>
-      <FormularioCadastro onSubmit={onSubmitForm} validationRegisterNumber={validRegisterNumber}/>
+      <validacoesCadastro.Provider
+        value={{ registerNumber: validRegisterNumber, password: validPassword }}
+      >
+        <FormularioCadastro onSubmit={onSubmitForm} />
+      </validacoesCadastro.Provider>
     </Container>
   );
 }
 
 function onSubmitForm(data) {
   console.log(data);
-}
-
-function validRegisterNumber(registerNumber) {
-  if(registerNumber.length !== 11) {
-    return {valid: false, text:"CPF deve ter 11 digitos."}
-  } else {
-    return {valid: true, text:""}
-  }
 }
 
 export default App;
